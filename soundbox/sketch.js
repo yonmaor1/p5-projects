@@ -49,12 +49,23 @@ function draw() {
     Z = Number(splitData[2]);
 
     // mapping for rotation
-    mappedX = map(X, -10, 10, -180, 180);
-    mappedY = map(Y, -10, 10, -180, 180);
-    mappedZ = map(Z, -10, 10, -180, 180);
+    mappedX = map(X, -10, 10, -90, 90);
+    mappedY = map(Y, -10, 10, -90, 90);
+    mappedZ = map(Z, -10, 10, -90, 90);
 
-    rotateX(radians(mappedY));
-    rotateZ(radians(mappedX));
+    if (Z > 0){
+        rotateX(radians(-mappedY));
+    } else if (Z < 0){
+        rotateX(90 + radians(mappedY));
+    }
+    rotateY(radians(-mappedX));
+    /*
+    if (Z > 0){
+        rotateY(radians(-mappedX));
+    } else if (Z < 0){
+        rotateX(90 + radians(mappedX));
+    */
+    // rotateZ(radians(mappedX));
     //rotateZ(radians(-45));
 
     // mapping for sound
