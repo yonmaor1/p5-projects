@@ -53,12 +53,8 @@ function draw() {
     mappedY = map(Y, -10, 10, -90, 90);
     mappedZ = map(Z, -10, 10, -90, 90);
 
-    if (Z > 0){
-        rotateX(radians(-mappedY));
-    } else if (Z < 0){
-        rotateX(90 + radians(mappedY));
-    }
-    rotateY(radians(-mappedX));
+    rotateX(radians(mappedY));
+    rotateY(radians(mappedX));
     /*
     if (Z > 0){
         rotateY(radians(-mappedX));
