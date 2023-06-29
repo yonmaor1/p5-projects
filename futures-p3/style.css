@@ -1,0 +1,171 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+  background: #000000;
+}
+
+canvas {
+  display: block;
+}
+
+.viewport {
+  position: absolute;
+  margin-left: 12%;
+  margin-right: auto;
+  margin-top: 8%;
+  margin-bottom: auto;
+  width: 70%;
+  height: 80%;
+  z-index: 1;
+}
+
+/* navbar */
+
+ul.navbar {
+  position: absolute;
+  list-style-type: none;
+  /* margin-right: 0%; */
+  margin-left: 8%;
+  margin-top: 20%;
+  padding: 0;
+  width: 3em;
+
+  z-index: 2;
+}
+
+li.nbar-item p {
+  display: block;
+  color: #ffffff;
+  text-decoration: none;
+  text-align: center;
+  margin-top: 1px;
+}
+
+li.nbar-item img {
+  display: block;
+  max-width: 100%;
+  max-height: auto;
+  /* padding: 8px 16px; */
+}
+
+/* Change the link color on hover */
+li.nbar-item p:hover {
+  color: #ff8282;
+}
+
+/* top bar */
+
+.top-bar {
+  position: relative;
+  margin-left: auto;
+  margin-right: 14%;
+  margin-top: 8%;
+  padding: 0;
+  height: 5em;
+
+  display: flex;
+  float: right;
+
+  z-index: 2;
+}
+
+.top-bar p {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 2em;
+  white-space: nowrap;
+  text-align: center;
+  font-family: monospace;
+  font-stretch: condensed;
+  margin-right: 10px;
+  /* padding: 1em 0; */
+
+  /* outline  */
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.top-bar img {
+  width: auto;
+  max-height: 100%;
+  /* padding: 5em 0; */
+}
+
+.right-bar {
+  position: absolute;
+  margin-left: 82%;
+  margin-top: 20%;
+  max-height: 30%
+}
+
+.right-bar img {
+  width: 5em;
+}
+
+.morii-text {
+  position: absolute;
+  margin-top: 2%;
+  margin-left: 41%;
+  height: 8%;
+}
+
+.morii-text img {
+  max-height: 100%;
+  width: auto;
+}
+
+.lg-logo {
+  position: absolute;
+  margin-top: 45.3%;
+  margin-left: 81.5%;
+  height: 10%;
+}
+
+.lg-logo img {
+  max-height: 100%;
+  width: auto;
+}
+
+
+
+.camera-left {
+  position: absolute;
+  display: flex;
+  margin-left: 0;
+  margin-right: auto;
+  width: 2em;
+  height: 100%;
+  background: #000000;
+}
+
+.camera-right {
+  position: absolute;
+  display: flex;
+  margin-left: auto;
+  margin-right: 0;
+  width: 2em;
+  height: 100%;
+  background: #000000;
+}
+
+.camera-top {
+  position: absolute;
+  display: flex;
+  margin-top: 0;
+  margin-bottom: auto;
+  width: 100%;
+  height: 2em;
+  background: #000000;
+}
+
+.camera-bottom {
+  position: absolute;
+  display: flex;
+  margin-top: auto;
+  margin-bottom: 0;
+  width: 100%;
+  height: 2em;
+  background: #000000;
+}
