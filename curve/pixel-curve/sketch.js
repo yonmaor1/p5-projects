@@ -37,13 +37,13 @@ function createCrossSection(noiseZ){
 
       let p = noiseZ;
 
-      let x0 = map(noise(noiseX, k * 0.005, p * 0.011), 0, 1, -width * 0.75, width * 1.75);
-      let y0 = map(noise(noiseY, k * 0.005, p * 0.0113), 0, 1, -height * 0.75, height * 1.75);
+      let x = map(noise(noiseX, k * 0.005, p * 0.011), 0, 1, -0.5*width, 1.5*width);
+      let y = map(noise(noiseY, k * 0.005, p * 0.011), 0, 1, -0.5*height, 1.5*height);
       
-      x0 = constrain(x0, 0, width-50);
-      y0 = constrain(y0, 0, height-50);
+      x = constrain(x, 10, width-50 - 10);
+      y = constrain(y, 10, height-50 - 10);
 
-      rect(x0, y0, 50);
+      rect(x, y, 50);
     
   }
   

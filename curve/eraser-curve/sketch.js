@@ -61,8 +61,6 @@ function createCrossSection(noiseZ){
 function removeCrossSection(noiseZ){
 
   // erase(0, 80);
-  fill('black');
-  stroke('black');
 
   for (let k = 0; k < 1000; k++) {
 
@@ -77,7 +75,12 @@ function removeCrossSection(noiseZ){
       x = floor(x / W);
       y = floor(y / W);
 
+      fill('black');
+      stroke('black');
       rect(x * W, y * W, W);
+
+      stroke('white');
+      draw_x(x * W, y * W, W-4);
     
   }
   
@@ -92,4 +95,12 @@ function draw_grid(grid_width, grid_height, d) {
       rect(i * d, j * d, d - 4);
     }
   }
+}
+
+function draw_x(x, y, w){
+  push();
+  translate(x - w/2, y - w/2);
+  line(0, 0, w, w);
+  line(0, w, w, 0);
+  pop();
 }
