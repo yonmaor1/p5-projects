@@ -7,7 +7,7 @@ let noiseX;
 let noiseY;
 let MAX = 50;
 let noiseParam = 0;
-let noiseStep = 0.01;
+let noiseStep = 0.1;
 
 let col;
 let target_col;
@@ -24,12 +24,14 @@ function setup() {
 
   print("with z: " + noise(noiseX, 1 * 0.005, 1 * 0.0111, 55));
   print("without z: " + noise(noiseX, 1 * 0.005, 1 * 0.0111, 0));
+  background(0);
   // noLoop();
 }
 
 function draw() {
 
-  background(0, 20);
+  
+  background(0, 10);
   col = color(0, 0, 255 * noise(noiseParam));
   // print(col);
 

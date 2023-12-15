@@ -1,14 +1,11 @@
 let capture;
 var step = 12;
-var symbols = "";
-// var symbols = "  .:!i*w#&W0@"
-// var symbols = "1234567890";
+var symbols = "The blood of the martyrs is the seed of the Church.";
 var draw_array = [];
 var colors = [];
 var capture_x = 800;
 var capture_y = 500;
 var draw_len = (capture_x * capture_y) / step;
-var typing = true;
 
 function setup() {
   createCanvas(capture_x, capture_y);
@@ -23,17 +20,19 @@ function setup() {
 
 function draw() {
   background('black');
-  if (typing) {
-    textSize(40);
-    fill('white');
-    text(symbols, 10, 40);
-  } else {
-    textSize(step);
-    image(capture, 0, 0, width, height);
-    sampleFrame();
-    background('black');
-    drawFrame();
-  }
+  textSize(step);
+  
+  push();
+  translate(width, 0);
+  scale(-1, 1);
+
+  image(capture, 0, 0, width, height);
+  sampleFrame();
+  
+  pop();
+
+  background('black');
+  drawFrame();
 }
 
 

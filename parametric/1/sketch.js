@@ -50,32 +50,38 @@ function draw() {
   // draw the curve
   var counter = 0;
   push();
-  translate(width/6, height/6);
-  for (var i = 0; i < 3; i++){
-    push();
-    translate(i * width / 3, 0);
-    for (var j = 0; j < 3; j++){
-      push();
-      translate(0, j * height / 3);
-      rotate(PI/4);
-      scale(0.75);
-      drawCurveStatic(allX[counter], allY[counter]);
-      pop();
+  translate(width/2, height/2);
+  // for (var i = 0; i < 3; i++){
+  //   push();
+  //   translate(i * width / 3, 0);
+  //   for (var j = 0; j < 3; j++){
+  //     push();
+  //     translate(0, j * height / 3);
+        rotate(PI/4);
+  //     scale(0.75);
+      drawCurve(allX[counter], allY[counter]);
+  //     pop();
 
-      counter++;
-    }
-    pop();
-  }
+  //     counter++;
+  //   }
+  //   pop();
+  // }
   pop();
+
+  if (allX.length == 500) {
+    allX = [];
+    allY = [];
+    curveIndex = 0;
+  }
   
 }
 
 function generateCurve(){
   var noiseParam = 0;
-  for (var i = 0; i < 9; i++){
+  for (var i = 0; i < 1; i++){
     var currentX = [];
     var currentY = [];
-    while (curveIndex < nPoints * displayRatio){
+    while (curveIndex < 0 * displayRatio){
       param1 = noise(noiseParam) * 10;
       param2 = noise(noiseParam + 1000) * 20;
       noiseParam += noiseStep;
