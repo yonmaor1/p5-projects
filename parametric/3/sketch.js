@@ -1,4 +1,4 @@
-var nPoints = 1000;
+var nPoints = 2000;
 var displayRatio = 1;
 var allX = [];
 var allY = [];
@@ -30,132 +30,73 @@ var drawn = false;
 var bgColor = '#F0F0F0'
 
 function setup() {
-  createCanvas(400, 400);
-  frameRate(60);
-
-  generateCurve();
-
-  // noLoop();
+  createCanvas(1056, 816, SVG);
 }
 
+let doExport = false;
 function draw() {
+
   background('white');
 
-  // draw the frame
-  fill(0);
-  noStroke();
-  stroke(0);
-  noFill();
+  translate(width/2, height/2);
+  rotate(radians(45));
 
-  // draw the curve
-  var counter = 0;
-  push();
-  translate(width/(grid*2), height/(grid*2));
-  for (var i = 0; i < grid; i++){
-    push();
-    translate(i * width / grid, 0);
-    for (var j = 0; j < grid; j++){
-      push();
-      translate(0, j * height / grid);
-      rotate(PI/4);
-      scale(1);
-      drawCurve(allX[counter], allY[counter]);
-      if (frameCount % 10000 == 0) {
-        background('white');
-        allX = [];
-        allY = [];
-        generateCurve();
-        noiseSeed(random(1000));
-      }
-      pop();
+  stroke('black');
+  strokeWeight(1);
+  drawCurve();
 
-      counter++;
-    }
-    pop();
+  if (doExport) {
+    let svgFilename = "noisy-square-" + nPoints + ".svg"; 
+    saveSVG(svgFilename);
+    doExport = false;
   }
-  pop();
+
+  noLoop();
+}
+
+function mousePressed() {
+  loop();
+}
+
+function keyPressed() {
+  if (keyCode = 's') doExport = true;
+}
+
+
+let s = 2;
+
+function drawCurve() {
+
+  beginShape();
+  for (let i = 0; i < nPoints; i++){
+    ph += rotation;
+
+    let param1 = noise(noiseParam) * 10;
+    let param2 = noise(noiseParam + 1000) * 20;
+    noiseParam += noiseStep;
+
+    let t = map(i, 0, 1000, 0, TWO_PI);
+
+
+    let x0 = (param1 / n) * (a - b) * cos(t) + (param2 / n) * h * cos(ph + (t * (a - b)) / b);
+    let y0 = (param1 / n) * (a - b) * sin(t) - (param2 / n) * h * sin(ph + (t * (a + b)) / b);
+
+    param1 = noise(noiseParam) * 10;
+    param2 = noise(noiseParam + 1000) * 20;
+    noiseParam += noiseStep;
+
+    t = map(i+1, 0, nPoints, 0, TWO_PI);
+
+
+    let x1 = (param1 / n) * (a - b) * cos(t) + (param2 / n) * h * cos(ph + (t * (a - b)) / b);
+    let y1 = (param1 / n) * (a - b) * sin(t) - (param2 / n) * h * sin(ph + (t * (a + b)) / b);
+
   
-}
+    // line(s * x0, s * y0, s * x1, s * y1);
+    vertex(s * x0, s * y0);
 
-function generateCurve(){
-  var noiseParam = 0;
-  for (var i = 0; i < 9; i++){
-    var currentX = [];
-    var currentY = [];
-    // while (curveIndex < nPoints * displayRatio){
-    //   param1 = noise(noiseParam) * 10;
-    //   param2 = noise(noiseParam + 1000) * 20;
-    //   noiseParam += noiseStep;
-    //   ph += rotation;
-    //   var t = map(curveIndex, 0, nPoints, 0, TWO_PI);
-
-
-    //   x = (param1 / n) * (a - b) * cos(t) + (param2 / n) * h * cos(ph + (t * (a - b)) / b);
-    //   y = (param1 / n) * (a - b) * sin(t) - (param2 / n) * h * sin(ph + (t * (a + b)) / b);
-    //   currentX.push(x);
-    //   currentY.push(y);
-    //   curveIndex++;
-    // }
-    allX.push(currentX);
-    allY.push(currentY);
-    noiseParam = 0;
-    curveIndex = 0;
-    noiseSeed(random(1000));
-  }
-}
-
-function drawCurveStatic(xPoints, yPoints) {
-  stroke('black');
-  strokeWeight(1);
-  for (var i = 0; i < xPoints.length - 1; i++) {
-    line(xPoints[i], yPoints[i], xPoints[i + 1], yPoints[i + 1]);
   }
 
-  noStroke();
-  fill('red');
-  ellipse(xPoints[xPoints.length - 1], yPoints[xPoints.length - 1], 1);
-}
-
-
-function drawCurve(xPoints, yPoints) {
-  ph += rotation;
-
-  param1 = noise(noiseParam) * 10;
-  param2 = noise(noiseParam + 1000) * 20;
-  noiseParam += noiseStep;
-
-  // param = 6;
-
-  curveIndex %= nPoints;
-  var t = map(curveIndex, 0, nPoints, 0, TWO_PI);
-
-
-  x = (param1 / n) * (a - b) * cos(t) + (param2 / n) * h * cos(ph + (t * (a - b)) / b);
-  y = (param1 / n) * (a - b) * sin(t) - (param2 / n) * h * sin(ph + (t * (a + b)) / b);
-  xPoints.push(x);
-  yPoints.push(y);
-
-  // motion //
-  // if (xPoints.length >  nPoints * displayRatio) {
-  //   xPoints.shift();
-  //   yPoints.shift();
-  // }
-
-  stroke('black');
-  strokeWeight(1);
-  for (var i = 0; i < xPoints.length - 1; i++) {
-    line(xPoints[i], yPoints[i],xPoints[i + 1], yPoints[i + 1]);
-  }
-
-  noStroke();
-  fill('red');
-  ellipse(xPoints[xPoints.length - 1], yPoints[xPoints.length - 1], 1);
-
-  curveIndex++;
-}
-
-function mousePressed(){
-  background('white');
-  generateCurve();
-  drawn = false;
+  endShape();
+  
 }
