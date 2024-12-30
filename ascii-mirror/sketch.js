@@ -1,6 +1,6 @@
 let capture;
 var step = 12;
-var symbols = " .,;=!*#&@";
+// var symbols = " .,;=!*#&@";
 var symbols = "  .:!i*w#&W0@"
 // var symbols = "1234567890";
 var draw_array = [];
@@ -38,6 +38,7 @@ function sampleFrame() {
     var gs = rgbToGs(c[0], c[1], c[2]);
     // print(gs);
     // print(c);
+    print(symbols)
     var symbol_index = int(map(gs, 0, 255, symbols.length - 1, 0)) // unsafe array access
     // print(symbol_index);
     draw_array[i] = symbols[symbol_index];

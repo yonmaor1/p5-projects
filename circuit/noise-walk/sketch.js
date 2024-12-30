@@ -17,7 +17,7 @@ var walkStep = 0.1;
 var cnv;
 
 function setup() {
-	cnv = createCanvas(800, 800);
+	cnv = createCanvas(600, 600);
 	cnv.parent("content");
 	frameRate(60);
 	rectMode(CENTER);

@@ -31,17 +31,22 @@ function setup() {
 function draw() {
 
   
-  background(0, 10);
+  // background(0, 7);
   col = color(0, 0, 255 * noise(noiseParam));
   // print(col);
 
   // noFill();
-  stroke('blue');
+  stroke('white');
+  noFill();
 
-  let noiseZ = map(mouseY, 0, height, 0, 1000 * 0.05) + noiseParam;
+  let noiseZ = /*map(mouseY, 0, height, 0, 1000 * 0.05) + */ noiseParam;
   createCrossSection(noiseZ);
 
-  noiseParam += noiseStep;
+  noiseParam += 30 * noiseStep;
+
+  if (frameCount == 5) {
+    noLoop();
+  }
 
   // col = color(col);
   // target_col = color(target_col);
@@ -53,17 +58,17 @@ function draw() {
 
 function createCrossSection(noiseZ){
 
-  erase(0, 80);
+  // erase(0, 80);
 
   beginShape();
-  for (let k = 0; k < 1000; k++) {
+  for (let k = 0; k < 500; k++) {
     // let k = noiseZ
     
     // for (let p = 0; p < MAX; p++) {
       let p = noiseZ;
 
       let x0 = map(noise(noiseX, k * 0.005, p * 0.011), 0, 1, -width * 0.75, width * 1.75);
-      let y0 = map(noise(noiseY, k * 0.005, p * 0.0113), 0, 1, -height * 0.75, height * 1.75);
+      let y0 = map(noise(noiseY, k * 0.005, p * 0.013), 0, 1, -height * 0.75, height * 1.75);
       
       vertex(x0, y0);
     // }
@@ -71,64 +76,18 @@ function createCrossSection(noiseZ){
   }
   endShape();
   
-  noErase();
+  // noErase();
+}
+
+function saveSvg(name) {
+	let svgFilename = name + '-' + int(random(100)) + '.svg';
+	saveSVG(svgFilename);
+	return svgFilename;
 }
 
 
+function mousePressed() {
+	let svgFilename = 'curves' + '.svg';
+	save(svgFilename);
 
-
-function _setup() {
-  createCanvas(windowWidth, windowHeight);
-  angleMode(DEGREES);
-
-  pg = createGraphics(width, height);
-  pg.angleMode(DEGREES);
-  pg.background(0);
-
-  pg.noFill();
-
-  pg.erase(0, 80);
-
-  noiseX = pg.random(1000);
-  noiseY = pg.random(1000);
-
-  for (let k = 0; k < 100; k++) {
-    pg.beginShape();
-    for (let p = 0; p < MAX; p++) {
-      let x = map(noise(noiseX, k * 0.005, p * 0.0111, 0), 0, 1, -pg.width * 0.75, pg.width * 1.75);
-      let y = map(noise(noiseY, k * 0.005, p * 0.0113, 0), 0, 1, -pg.height * 0.75, pg.height * 1.75);
-
-      pg.vertex(x, y);
-    }
-    pg.endShape();
-  }
-
-  pg.noErase();
-
-  // noLoop();
-}
-
-
-function _draw() {
-	
-  // background(random(palette));
-
-  // push();
-  // drawingContext.filter = 'blur(30px)';
-
-  // background(random(palette));
-  // noFill();
-  // for (let p = 0; p < 100; p++) {
-  //   let num = floor(random(5, 10));
-  //   strokeWeight(random(10, 50));
-  //   stroke(random(palette));
-  //   beginShape();
-  //   for (let q = 0; q < num; q++) {
-  //     curveVertex(random(width), random(height));
-  //   }
-  //   endShape();
-  // }
-  // pop();
-	
-  image(pg, 0, 0);
 }

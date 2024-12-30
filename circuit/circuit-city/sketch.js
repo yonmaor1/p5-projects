@@ -15,7 +15,7 @@ let tx = 0;
 let ty = 0;
 
 function setup() {
-	createCanvas(1056, 1056);
+	createCanvas(600, 600);
 	// createCanvas(800, 800);
 	// noLoop();
 	frameRate(400);
@@ -119,7 +119,7 @@ function noiseLine(x, y) {
 		// print(nodeIndex);
 		emptyNodes[nodeIndex] = false;
 		let angleIndex = int(noise(x * ns + tx, y * ns + ty, i * 0.0001) * 16) % 8;
-		//let angleIndex = int(Noise.perlin3(x * ns + tx, y * ns + ty, i * 0.0001) * 16) % 8;
+		// let angleIndex = int(Noise.perlin3(x * ns + tx, y * ns + ty, i * 0.0001) * 16) % 8;
 		let angle = directions[angleIndex];
 		px = x;
 		py = y;

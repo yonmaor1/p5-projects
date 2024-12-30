@@ -7,9 +7,12 @@ let col;
 let target_col;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1080, 1920);
   angleMode(DEGREES);
   frameRate(60);
+
+  noFill();
+  stroke(255, 100);
 
   noiseX = random(1000); 
   noiseY = random(1000);
@@ -31,7 +34,7 @@ function draw() {
 
 function createCrossSection(noiseZ){
 
-  erase(0, 80);
+  // erase(0, 80);
 
   for (let k = 0; k < 1000; k++) {
 
@@ -40,8 +43,8 @@ function createCrossSection(noiseZ){
       let x = map(noise(noiseX, k * 0.005, p * 0.011), 0, 1, -0.5*width, 1.5*width);
       let y = map(noise(noiseY, k * 0.005, p * 0.011), 0, 1, -0.5*height, 1.5*height);
       
-      let dx = x - mouseX;
-      let dy = y - mouseY;
+      let dx = x; // - mouseX;
+      let dy = y; // - mouseY;
 
       x += dx / 5;
       y += dy / 5;
@@ -55,5 +58,5 @@ function createCrossSection(noiseZ){
     
   }
   
-  noErase();
+  // noErase();
 }

@@ -5,8 +5,10 @@ let noiseStep = 0.1;
 
 let W = 10;
 
+let curve = []
+
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1080/2, 1920/2);
   angleMode(DEGREES);
   rectMode(CENTER);
   frameRate(60);
@@ -29,10 +31,22 @@ function draw() {
   // createCrossSection(noiseParam);
   draw_grid(width, height, W);
   removeCrossSection(noiseParam);
+
+  fill_shape()
   
 
   noiseParam += noiseStep;
 
+}
+
+function fill_shape(){
+  let mx = floor(mouseX / W);
+  let my = floor(mouseY / W);
+
+  let shape = []
+  while (true){
+    return
+  }
 }
 
 function createCrossSection(noiseZ){
@@ -62,6 +76,8 @@ function removeCrossSection(noiseZ){
 
   // erase(0, 80);
 
+  curve = []
+
   for (let k = 0; k < 1000; k++) {
 
       let p = noiseZ;
@@ -74,6 +90,8 @@ function removeCrossSection(noiseZ){
 
       x = floor(x / W);
       y = floor(y / W);
+
+      curve.push([x, y]);
 
       fill('black');
       stroke('black');
@@ -92,6 +110,11 @@ function draw_grid(grid_width, grid_height, d) {
   stroke('white');
   for (let i = 0; i < (grid_width)/d; i++){
     for (let j = 0; j < (grid_height)/d; j++){
+      if (mouseX > i * d && mouseX < i * d + d && mouseY > j * d && mouseY < j * d + d){
+        stroke('red');
+      } else {
+        stroke('white');
+      }
       rect(i * d, j * d, d - 4);
     }
   }
