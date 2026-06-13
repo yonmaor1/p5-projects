@@ -51,21 +51,21 @@ function draw() {
   var counter = 0;
   push();
   translate(width/2, height/2);
-  // for (var i = 0; i < 3; i++){
-  //   push();
-  //   translate(i * width / 3, 0);
-  //   for (var j = 0; j < 3; j++){
-  //     push();
-  //     translate(0, j * height / 3);
+  for (var i = 0; i < 3; i++){
+    push();
+    translate(i * width / 3, 0);
+    for (var j = 0; j < 3; j++){
+      push();
+      translate(0, j * height / 3);
         rotate(PI/4);
-  //     scale(0.75);
+      scale(0.75);
       drawCurve(allX[counter], allY[counter]);
-  //     pop();
+      pop();
 
-  //     counter++;
-  //   }
-  //   pop();
-  // }
+      counter++;
+    }
+    pop();
+  }
   pop();
 
   if (allX.length == 500) {

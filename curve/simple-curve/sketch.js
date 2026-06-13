@@ -12,6 +12,26 @@ let noiseStep = 0.1;
 let col;
 let target_col;
 
+let bDoExportSvg = false; 
+
+function keyPressed(){
+  if (key == 's'){ 
+    background(255);
+    loop();
+    bDoExportSvg = true; 
+  }
+}
+
+let nose_seed = 0;
+function mousePressed(){
+    
+    background('black');
+    noise_seed = random(1000);
+    noiseSeed(noise_seed);
+    loop();
+}
+
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   angleMode(DEGREES);
@@ -30,28 +50,34 @@ function setup() {
 
 function draw() {
 
-  
-  // background(0, 7);
-  col = color(0, 0, 255 * noise(noiseParam));
-  // print(col);
-
-  // noFill();
-  stroke('white');
-  noFill();
-
-  let noiseZ = /*map(mouseY, 0, height, 0, 1000 * 0.05) + */ noiseParam;
-  createCrossSection(noiseZ);
-
-  noiseParam += 30 * noiseStep;
-
-  if (frameCount == 5) {
-    noLoop();
+  if (bDoExportSvg){
+    beginRecordSVG(this, "myOutput.svg");
   }
 
-  // col = color(col);
-  // target_col = color(target_col);
-  // let dr = red(color(target_col)) - red(color(col));
-  // let db = blue(color(target_col)) - blue(color(col));
+  let j = 0;
+  while (j < 5) {
+    // background(0, 7);
+    col = color(0, 0, 255 * noise(noiseParam));
+    // print(col);
+
+    // noFill();
+    stroke('white');
+    noFill();
+
+    let noiseZ = /*map(mouseY, 0, height, 0, 1000 * 0.05) + */ noiseParam;
+    createCrossSection(noiseZ);
+
+    noiseParam += 30 * noiseStep;
+
+    j++;
+
+  }
+  
+  noLoop();
+  if (bDoExportSvg){
+    endRecordSVG();
+    bDoExportSvg = false;
+  }
 
 
 }
@@ -61,7 +87,7 @@ function createCrossSection(noiseZ){
   // erase(0, 80);
 
   beginShape();
-  for (let k = 0; k < 500; k++) {
+  for (let k = 0; k < 250; k++) {
     // let k = noiseZ
     
     // for (let p = 0; p < MAX; p++) {
@@ -77,17 +103,4 @@ function createCrossSection(noiseZ){
   endShape();
   
   // noErase();
-}
-
-function saveSvg(name) {
-	let svgFilename = name + '-' + int(random(100)) + '.svg';
-	saveSVG(svgFilename);
-	return svgFilename;
-}
-
-
-function mousePressed() {
-	let svgFilename = 'curves' + '.svg';
-	save(svgFilename);
-
 }

@@ -9,6 +9,7 @@ var capture_x = 800;
 var capture_y = 500;
 var draw_len = (capture_x * capture_y) / step;
 var typing = true;
+let THRESHOLD = 0.5;
 
 function setup() {
   createCanvas(capture_x, capture_y);
@@ -46,7 +47,7 @@ function sampleFrame() {
     var gs = rgbToGs(c[0], c[1], c[2]);
     // print(gs);
     // print(c);
-    if (gs < 0.5 * 255) {
+    if (gs < THRESHOLD * 255) {
       draw_array[i] = symbols[current_symbol];
       current_symbol = (current_symbol + 1) % symbols.length;
     } else {
