@@ -33,18 +33,18 @@ function setup() {
   curve_stregth = object_height / (3*n_planes)
   for (let i = 0; i < n_planes; i++){
     // original
-    // y = map(i, 0, n_planes, -object_height/2, object_height/2)
-    // is_fixed = i == 0 || i == n_planes - 1 ? true : false
-    // planes[i] = createPlane(0, y, 0, is_fixed)
+    y = map(i, 0, n_planes, -object_height/2, object_height/2)
+    is_fixed = i == 0 || i == n_planes - 1 ? true : false
+    planes[i] = createPlane(0, y, 0, is_fixed)
     
     // circle
-    theta = map(i, 0, n_planes, 0, 360)
-    r = object_height / 2
-    is_fixed = i == 0 || i == n_planes - 1 ? true : false
-    planes[i] = createPlane(
-      r*cos(theta), r*sin(theta), 0, 
-      90, theta, 0,
-      is_fixed)
+    // theta = map(i, 0, n_planes, 0, 360)
+    // r = object_height / 2
+    // is_fixed = i == 0 || i == n_planes - 1 ? true : false
+    // planes[i] = createPlane(
+    //   r*cos(theta), r*sin(theta), 0, 
+    //   90, theta, 0,
+    //   is_fixed)
   }
 }
 
@@ -82,7 +82,7 @@ function draw() {
         curr_plane.points[(curr_row.length)-1][i].x, curr_plane.points[(curr_row.length)-1][i].y,
       )
       
-      if (true) {// (p < n_planes-1){
+      if (p < n_planes-1){
         var next_plane = p < n_planes-1 ? planes[p+1] : planes[0]
         let next_row = next_plane.points[i]
   
@@ -97,14 +97,14 @@ function draw() {
             next_row[j].x, next_row[j].y
           )
   
-          // line(
-          //   curr_row[j].x, curr_row[j].y,
-          //   curr_control[j].x, curr_control[j].y
-          // )
-          // line(
-          //   next_control[j].x, next_control[j].y,
-          //   next_row[j].x, next_row[j].y
-          // )
+          line(
+            curr_row[j].x, curr_row[j].y,
+            curr_control[j].x, curr_control[j].y
+          )
+          line(
+            next_control[j].x, next_control[j].y,
+            next_row[j].x, next_row[j].y
+          )
       }
       }
     }
