@@ -22,7 +22,7 @@ function toAlpha(num) {
 function setup() {
   createCanvas(800, 800, WEBGL)
   frameRate(24)
-  debugMode();
+  // debugMode();
   // noLoop()
   angleMode(DEGREES)
 
@@ -35,7 +35,7 @@ function setup() {
     // original
     y = map(i, 0, n_planes, -object_height/2, object_height/2)
     is_fixed = i == 0 || i == n_planes - 1 ? true : false
-    planes[i] = createPlane(0, y, 0, is_fixed)
+    planes[i] = createPlane(0, y, 0, 90, 0, 0, is_fixed)
     
     // circle
     // theta = map(i, 0, n_planes, 0, 360)
@@ -50,14 +50,21 @@ function setup() {
 
 function draw() {
   background('white')
-  orbitControl();
+  // orbitControl();
   
   push()
-  stroke(0, 100)
   rotateY(30)
   for (let i = 0; i < planes.length; i++){
+    // debug
+    // push()
+    // stroke(0, 100)
+    // translate(planes[i].init_x + planes[i].x, planes[i].init_y + planes[i].y, 0)
+    // plane()
+    // pop()
+    
     planes[i].move()
     planes[i].draw()
+    // planes[i]._drawAbsoluteSubdivs()
   }
   pop()
 
@@ -67,7 +74,7 @@ function draw() {
   stroke(0, 255)
   translate(-width/2, -object_height + object_height/n_planes + 12)
   // translate(-(object_height*0.3125), -(object_height*0.125))
-  // stroke('red')
+  // circle(0, 0, object_height*0.625)
   for (let p = 0; p < planes.length; p++){
     let curr_plane = planes[p]
     for (let i = 0; i < curr_plane.points.length; i++) {
@@ -97,14 +104,14 @@ function draw() {
             next_row[j].x, next_row[j].y
           )
   
-          line(
-            curr_row[j].x, curr_row[j].y,
-            curr_control[j].x, curr_control[j].y
-          )
-          line(
-            next_control[j].x, next_control[j].y,
-            next_row[j].x, next_row[j].y
-          )
+          // line(
+          //   curr_row[j].x, curr_row[j].y,
+          //   curr_control[j].x, curr_control[j].y
+          // )
+          // line(
+          //   next_control[j].x, next_control[j].y,
+          //   next_row[j].x, next_row[j].y
+          // )
       }
       }
     }
@@ -154,18 +161,19 @@ function createPlane(x, y, z, init_angle_x, init_angle_y, init_angle_z, fixed) {
     points: [], controls_pre: [], controls_post: [],
     draw: drawPlane,
     move: movePlane,
-    _drawAbsoluteSubdivs
+    _drawAbsoluteSubdivs: _drawAbsoluteSubdivs
   }
   return p
 }
 
 function drawPlane() {
+  stroke('red')
+  // plane(plane_width, plane_width)
   push()
   translate(this.init_x + this.x, this.init_y + this.y, this.init_z + this.z)
   rotateX(this.init_angle_x + this.angle_x)
   rotateY(this.init_angle_y + this.angle_y)
   rotateZ(this.init_angle_z + this.angle_z)
-  rect(-plane_width/2, -plane_width/2, plane_width, plane_width)
   for (let i = 0; i < n_divs+1; i ++) {
     this.points[i] = []
     this.controls_pre[i] = []
