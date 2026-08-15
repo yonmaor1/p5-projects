@@ -1,1 +1,5 @@
 .Rhistory
+.venv/
+venv/
+.DS_Store
+dist/
