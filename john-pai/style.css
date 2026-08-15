@@ -5,7 +5,7 @@ html, body {
 
 body {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
@@ -21,4 +21,26 @@ canvas {
 
 input {
   width: 100px;
+}
+
+.selector-conrainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+  color: black;
+}
+
+a:hover {
+  color: rgb(98, 98, 98);
+}
+
+.round {
+  border-radius: 50%;
 }

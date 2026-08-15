@@ -2,18 +2,51 @@ WIDTH = 400;
 HEIGHT = 400;
 let cnv;
 
-let planes = [];
-let n_planes = 2;
-let n_divs = 10;
-let plane_width = 100;
-let object_height_coeff = 0.6/4;
-let plane_dist = 120;
-let object_height = plane_dist * (n_planes-1);
+let iteration_index = 0;
+let iterations = ['base', 'function', 'drawing']
+let iteration_configs = {
+  'base': {
+    n_planes: 5,
+    n_divs: 8,
+    plane_width: 100,
+    object_height_coeff: 0.6/4,
+    plane_dist: 120,
+  },
+  'function': {
+    n_planes: 2,
+    n_divs: 10,
+    plane_width: 100,
+    object_height_coeff: 0.6/4,
+    plane_dist: 120,
+  },
+  'drawing': {
+    n_planes: 0,
+    n_divs: 10,
+    plane_width: 100,
+    object_height_coeff: 0.6/4,
+    plane_dist: 120,
+  }
+}
 
+let configs = iteration_configs[iterations[iteration_index]]
+let planes = [];
+let object_height;
 let curve_stregth;
 
 let bg_x = 100;
 let bg_y = -200;
+
+function nextIteration() {
+  iteration_index = (iteration_index + 1) % iterations.length
+  configs = iteration_configs[iterations[iteration_index]]
+  setupConfigs()
+}
+
+function prevIteration() {
+  iteration_index = (iteration_index - 1 + iterations.length) % iterations.length
+  configs = iteration_configs[iterations[iteration_index]]
+  setupConfigs()
+}
 
 function toAlpha(num) {
   let alpha_str = ""
@@ -22,6 +55,31 @@ function toAlpha(num) {
   }
   alpha_str += String.fromCharCode(65 + num%26)
   return alpha_str
+}
+
+function setupConfigs() {
+  console.log("Current iteration: " + iterations[iteration_index])
+  console.log(configs)
+  
+  planes = [];
+  object_height = configs.plane_dist * (configs.n_planes-1);
+  curve_stregth = object_height / (3*configs.n_planes)
+  for (let i = 0; i < configs.n_planes; i++){
+    // original
+    y = map(i, 0, configs.n_planes-1, -object_height/2, object_height/2)
+    is_fixed = i == 0 || i == configs.n_planes - 1 ? true : false
+    is_fixed = false
+    planes[i] = createPlane(0, y, 0, 90, 0, 0, is_fixed)
+    
+    // circle
+    // theta = map(i, 0, n_planes, 0, 360)
+    // r = object_height / 2
+    // is_fixed = i == 0 || i == n_planes - 1 ? true : false
+    // planes[i] = createPlane(
+    //   r*cos(theta), r*sin(theta), 0, 
+    //   90, theta, 0,
+    //   is_fixed)
+  }
 }
 
 function setup() {
@@ -35,23 +93,7 @@ function setup() {
   noFill()
   strokeWeight(0.5)
 
-  curve_stregth = object_height / (3*n_planes)
-  for (let i = 0; i < n_planes; i++){
-    // original
-    y = map(i, 0, n_planes-1, -object_height/2, object_height/2)
-    is_fixed = i == 0 || i == n_planes - 1 ? true : false
-    is_fixed = false
-    planes[i] = createPlane(0, y, 0, 90, 0, 0, is_fixed)
-    
-    // circle
-    // theta = map(i, 0, n_planes, 0, 360)
-    // r = object_height / 2
-    // is_fixed = i == 0 || i == n_planes - 1 ? true : false
-    // planes[i] = createPlane(
-    //   r*cos(theta), r*sin(theta), 0, 
-    //   90, theta, 0,
-    //   is_fixed)
-  }
+  setupConfigs()
 }
 
 function eval_fn(f_str) {
@@ -89,6 +131,17 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (e) {
       print(e)
     }
+  });
+
+  prev_btn = document.getElementById('prev-btn')
+  next_btn = document.getElementById('next-btn')
+  prev_btn.addEventListener('click', function() {
+    console.log("prev button clicked")
+    prevIteration()
+  });
+  next_btn.addEventListener('click', function() {
+    console.log("next button clicked")
+    nextIteration()
   });
 });
 
@@ -133,8 +186,8 @@ function draw() {
         curr_plane.points[0][i].x, curr_plane.points[0][i].y,
         curr_plane.points[(curr_row.length)-1][i].x, curr_plane.points[(curr_row.length)-1][i].y,
       )
-      if (p < n_planes-1){
-        var next_plane = p < n_planes-1 ? planes[p+1] : planes[0]
+      if (p < configs.n_planes-1){
+        var next_plane = p < configs.n_planes-1 ? planes[p+1] : planes[0]
   
         let curr_control = curr_plane.controls_pre[i]
         stroke(0, 255)
@@ -218,16 +271,16 @@ function drawPlane() {
   rotateX(this.init_angle_x + this.angle_x)
   rotateY(this.init_angle_y + this.angle_y)
   rotateZ(this.init_angle_z + this.angle_z)
-  for (let i = 0; i < n_divs+1; i ++) {
+  for (let i = 0; i < configs.n_divs+1; i ++) {
     this.points[i] = []
     this.controls_pre[i] = []
     this.controls_post[i] = []
-    inter_div_width = plane_width / n_divs
-    x = map(i, 0, n_divs, -plane_width/2, plane_width/2) + (noise(this.noise_param + i/10) - 0.5) * inter_div_width
-    for (let j = 0; j < n_divs+1; j ++) {
-      y = map(j, 0, n_divs, -plane_width/2, plane_width/2) + (noise(this.noise_param + i/10) - 0.5) * inter_div_width
+    inter_div_width = configs.plane_width / configs.n_divs
+    x = map(i, 0, configs.n_divs, -configs.plane_width/2, configs.plane_width/2) + (noise(this.noise_param + i/10) - 0.5) * inter_div_width
+    for (let j = 0; j < configs.n_divs+1; j ++) {
+      y = map(j, 0, configs.n_divs, -configs.plane_width/2, configs.plane_width/2) + (noise(this.noise_param + i/10) - 0.5) * inter_div_width
 
-      if (i < n_divs && j < n_divs){
+      if (i < configs.n_divs && j < configs.n_divs){
         // rect(x, y, plane_width/n_divs, plane_width/n_divs)
       }
       this.points[i][j] = worldToScreen(x, y, 0);
@@ -239,7 +292,7 @@ function drawPlane() {
 }
 
 let angle_range = 60;
-let move_range = plane_width / 2;
+let move_range = configs.plane_width / 2;
 function movePlane() {
   if (this.fixed){
     return
