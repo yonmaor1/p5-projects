@@ -2,15 +2,16 @@ WIDTH = 400;
 HEIGHT = 400;
 let cnv;
 
-let iteration_index = 0;
+let iteration_index = 2;
 let iterations = ['base', 'function', 'drawing']
 let iteration_configs = {
   'base': {
     n_planes: 5,
-    n_divs: 8,
+    n_divs: 7,
     plane_width: 100,
     object_height_coeff: 0.6/4,
     plane_dist: 120,
+    scale_factor: 0.5
   },
   'function': {
     n_planes: 2,
@@ -18,6 +19,7 @@ let iteration_configs = {
     plane_width: 100,
     object_height_coeff: 0.6/4,
     plane_dist: 120,
+    scale_factor: 1
   },
   'drawing': {
     n_planes: 0,
@@ -25,6 +27,7 @@ let iteration_configs = {
     plane_width: 100,
     object_height_coeff: 0.6/4,
     plane_dist: 120,
+    scale_factor: 0.5
   }
 }
 
@@ -57,6 +60,11 @@ function toAlpha(num) {
   return alpha_str
 }
 
+function addPlane(x=0, y=0, z=0, init_angle_x=0, init_angle_y=0, init_angle_z=0, fixed=false) {
+  let plane = createPlane(x, y, z, init_angle_x, init_angle_y, init_angle_z, fixed)
+  planes.push(plane)
+}
+
 function setupConfigs() {
   console.log("Current iteration: " + iterations[iteration_index])
   console.log(configs)
@@ -68,8 +76,12 @@ function setupConfigs() {
     // original
     y = map(i, 0, configs.n_planes-1, -object_height/2, object_height/2)
     is_fixed = i == 0 || i == configs.n_planes - 1 ? true : false
-    is_fixed = false
-    planes[i] = createPlane(0, y, 0, 90, 0, 0, is_fixed)
+    if (iterations[iteration_index] == 'function'){
+      is_fixed = false
+    } else if (iterations[iteration_index] == 'drawing'){
+      is_fixed = true
+    }
+    addPlane(0, y, 0, 90, 0, 0, is_fixed)
     
     // circle
     // theta = map(i, 0, n_planes, 0, 360)
@@ -80,6 +92,14 @@ function setupConfigs() {
     //   90, theta, 0,
     //   is_fixed)
   }
+}
+
+function mousePressed() {
+  if (mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height){
+    return
+  }
+  console.log("Adding plane at mouse position: " + mouseX + ", " + mouseY)
+  addPlane(mouseX - width/2, mouseY - height/2, 0, 90, 0, 0, false)
 }
 
 function setup() {
@@ -149,6 +169,7 @@ function draw() {
   background('white')
   // orbitControl();
   
+  scale(configs.scale_factor, configs.scale_factor)
   push()
   rotateY(30)
   for (let i = 0; i < planes.length; i++){
@@ -174,8 +195,10 @@ function draw() {
   // translate(-(object_height*0.3125), -(object_height*0.125))
   // circle(0, 0, object_height*0.625)
   for (let p = 0; p < planes.length; p++){
+    // console.log("Drawing connections for plane " + p)
     let curr_plane = planes[p]
     for (let i = 0; i < curr_plane.points.length; i++) {
+      // print("Drawing connections for row " + i + " of plane " + p)
       let curr_row = curr_plane.points[i]
       stroke(0, 100)
       line(
@@ -186,8 +209,8 @@ function draw() {
         curr_plane.points[0][i].x, curr_plane.points[0][i].y,
         curr_plane.points[(curr_row.length)-1][i].x, curr_plane.points[(curr_row.length)-1][i].y,
       )
-      if (p < configs.n_planes-1){
-        var next_plane = p < configs.n_planes-1 ? planes[p+1] : planes[0]
+      if (p < planes.length-1){
+        var next_plane = p < planes.length-1 ? planes[p+1] : planes[0]
   
         let curr_control = curr_plane.controls_pre[i]
         stroke(0, 255)
@@ -224,9 +247,6 @@ function draw() {
   // } else {
   //   noLoop()
   // }
-}
-
-function mousePressed() {
 }
 
 // function keyPressed() {
